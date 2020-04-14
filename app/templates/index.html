@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+
+{% block app_content %}
+
+    <h1 style="text-align: center;">Hi, {{ current_user.username }}!</h1>
+    <br>
+
+    <h2 style="text-align: center;">Search for book:</h2>
+    <form action="{{ url_for('main.search') }}" method="GET" class="form-group">
+        <div class="input-group mb-3">
+            <input name="book" type="text" class="form-control" placeholder="ISBN, Author or Title" aria-label="ISBN, Author or Title" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit">Search</button>
+            </div>
+          </div>
+        <small id="bookHelp" class="form-text text-muted">Example: 0375508325, Cosmos or Carl Sagan</small>
+    </form>
+
+    <h4>Have You Read:</h4>
+   
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="card-deck col-auto mb-4">
+                {% for book in rnd_book %}
+                <div class="card border-primary mb-3">
+                    <div class="card-header" style="text-align: left;"><h5>{{ book[0] }}</h4></div>
+                        <div class="card-body">
+                            <h6 class="card-text">Author: {{book[1]}}</h6>
+                            <h6 class="card-text">Year: {{book[2]}}</h6>
+                            <h6 class="card-text">Isbn: {{book[3]}}</h6>
+                            <hr>
+                            <img src="http://covers.openlibrary.org/b/isbn/{{ book[3] }}-M.jpg" alt="{{ book[0] }}" class="card-img" width="110px">
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('main.book', isbn=book[3]) }}">Go to book page</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>    
+
+          
+{% endblock app_content %}
+

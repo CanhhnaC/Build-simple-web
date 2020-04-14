@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../static/style.css">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+
+    <title>{% block title %}{{ title }}{% endblock title %}</title>
+</head>
+
+<style>
+  link-a-a a {
+    color: #dc3545;
+  }
+  link-a-a a:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+</style>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('main.index')}}">BookStore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="navbar-collapse collapse" id="navbarNavDropdown">
+          {% if current_user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="nav-link text-danger">Log Out</a></li>
+            </ul>
+          {% else%}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="{{ url_for('auth.register') }}" class="nav-link">Register</a></li>
+                <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link">Login</a></li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+      </nav>
+
+      {% block content %}
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                    <span>{{ message }}</span> 
+                  </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {% block app_content %} {% endblock app_content %}
+        </div>
+      {% endblock content %}  
+
+
+
+</body>
+</html>
