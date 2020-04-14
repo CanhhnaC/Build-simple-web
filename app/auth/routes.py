@@ -5,6 +5,7 @@ from app.models import User
 from app.auth import bp
 from app import db
 
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
