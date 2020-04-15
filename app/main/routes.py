@@ -23,11 +23,11 @@ def before_request():
 def index():
 
     # Postgresql
-    # sql = text('SELECT title, author, year, isbn FROM book ORDER BY RAND() LIMIT 4')
+    sql = text('SELECT title, author, year, isbn FROM book ORDER BY RAND() LIMIT 4')
 
     # SQL Server
-    sql = text(
-        'SELECT TOP 4 title, author, "year", isbn FROM book ORDER BY NEWID()')
+    # sql = text(
+    #     'SELECT TOP 4 title, author, "year", isbn FROM book ORDER BY NEWID()')
     q = db.engine.execute(sql)
     return render_template('index.html', title='Home', rnd_book=q)
 
@@ -45,10 +45,10 @@ def search():
         return render_template('index.html', title='Error')
     else:
         query = '%' + search_book + '%'
-        sql = text('SELECT TOP 4 title, author, year, isbn FROM book WHERE \
+        sql = text('SELECT title, author, year, isbn FROM book WHERE \
                     isbn LIKE :query OR \
                     title LIKE :query OR \
-                    author LIKE :query')
+                    author LIKE :query LIMIT 4')
         book_result = db.engine.execute(sql, {"query": query})
 
         if book_result.rowcount == 0:
