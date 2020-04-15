@@ -4,6 +4,15 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 
+reviews = db.Table(
+    'reviews',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('book_id', db.Integer, db.ForeignKey('book.id')),
+    db.Column('rating', db.Integer),
+    db.Column('comment', db.String(300)),
+    db.Column('time_review', db.DateTime, default=datetime.utcnow)
+)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,7 +37,7 @@ def load_user(id):
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.String, index=True, unique=True)
+    isbn = db.Column(db.String)
     title = db.Column(db.String)
     author = db.Column(db.String)
     year = db.Column(db.Integer)

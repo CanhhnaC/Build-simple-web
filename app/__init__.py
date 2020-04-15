@@ -22,6 +22,9 @@ def create_app(config_class=Config):
     login.init_app(app)
     bootstrap.init_app(app)
 
+    from app.error import bp as error_bp
+    app.register_blueprint(error_bp)
+
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
@@ -29,3 +32,5 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     return app
+
+from app import models
